@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/09 13:23:42 by vame              #+#    #+#             */
-/*   Updated: 2015/02/26 17:08:26 by vame             ###   ########.fr       */
+/*   Updated: 2015/02/27 16:53:52 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,7 @@
 # define KEYCODE_2 50
 # define KEYCODE_3 51
 
-/*
-** structure mlx
-*/
-
-typedef struct		s_win
-{
-	int				w;
-	int				h;
-	int				o_x;
-	int				o_y;
-	float			coef_z;
-	void			*mlx;
-	void			*win;
-	void			*img;
-	char			*img_str;
-	int				bpp;
-	int				len;
-	int				endian;
-	struct s_map	*map;
-	struct s_color	*color;
-	struct s_matrix	*m;
-}					t_win;
+# define PI 3.141592
 
 /*
 ** structure map
@@ -93,22 +72,45 @@ typedef struct		s_color
 
 typedef struct		s_matrix
 {
-	float			main[4][4];
-	float			m_t[4][4];
+	float			**main;
+	float			**m_t;
 	float			tx;
 	float			ty;
 	float			tz;
-	float			m_rx[4][4];
+	float			**m_rx;
 	float			ax;
-	float			m_ry[4][4];
+	float			**m_ry;
 	float			ay;
-	float			m_rz[4][4];
+	float			**m_rz;
 	float			az;
-	float			m_s[4][4];
+	float			**m_s;
 	float			sx;
 	float			sy;
 	float			sz;
 }					t_matrix;
+
+/*
+** structure mlx
+*/
+
+typedef struct		s_win
+{
+	int				w;
+	int				h;
+	int				o_x;
+	int				o_y;
+	float			coef_z;
+	void			*mlx;
+	void			*win;
+	void			*img;
+	char			*img_str;
+	int				bpp;
+	int				len;
+	int				endian;
+	struct s_map	*map;
+	struct s_color	color;
+	struct s_matrix	m;
+}					t_win;
 
 /*
 ** structure pixel
@@ -152,6 +154,9 @@ int					key_hook(int keycode, t_win *env);
 */
 
 int					fdf_expose_hook(t_win *env);
+void				fdf_key_transform(t_win *env, int keycode);
+void				fdf_key_change_coef_z(t_win *env, int keycode);
+void				fdf_set_color(int keycode, t_win *env);
 
 /*
 ** fonctions de dessin
@@ -171,7 +176,6 @@ void				fdf_calc_win_param(t_win *e);
 */
 
 int					fdf_color_degrade(int clr_a, int clr_b, int index);
-void				fdf_set_color(int keycode, t_win *env);
 
 /*
 ** fonctions de gestion des index d'altitude
@@ -179,5 +183,14 @@ void				fdf_set_color(int keycode, t_win *env);
 
 int					fdf_create_alti(char *split, t_map *map);
 void				fdf_index_alti(float alti, t_win *env, t_pixel *pxl);
+
+/*
+** fonctions de gestion des projection et transformation matricielles
+*/
+
+void				fdf_matrix_init(t_win *env);
+void				fdf_matrix_bzero(t_win *env);
+float				**fdf_create_mat(int x, int y);
+void				fdf_del_mat(int x, float ***mat);
 
 #endif

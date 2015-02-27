@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/10 12:51:56 by vame              #+#    #+#             */
-/*   Updated: 2015/02/26 17:07:53 by vame             ###   ########.fr       */
+/*   Updated: 2015/02/27 16:43:43 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,30 @@ void				fdf_print_into_img(t_win *env, int x, int y, int color)
 
 static void			fdf_pxl_proj(t_pixel *pxl, int z, t_win *env)
 {
+	int					i;
+	int					j;
 	float				x;
 	float				y;
+	float				xyz[4];
+	float				r[4];
 
 	z = z * env->coef_z;
-	x = env->o_x + sqrt(2) / 2 * (pxl->x - pxl->y);
-	y = env->o_y - (sqrt(2) / sqrt(3) * z - (1 / sqrt(6)) * (pxl->x + pxl->y));
-	fdf_print_into_img(env, x, y, pxl->color);
+	xyz[0] = pxl->x;
+	xyz[1] = pxl->y;
+	xyz[2] = z;
+	xyz[3] = 1;
+	j = 0;
+	while (j++ < 4)
+	{
+		i = 0;
+		r[j - 1] = 0;
+		while (i++ < 4)
+			r[j - 1] += env->m.main[j - 1][i - 1] * xyz[i - 1];
+	}
+	x = env->o_x + sqrt(2) / 2 * (r[0] - r[1]);
+	y = env->o_y - (sqrt(2) / sqrt(3) * r[2] - (1 / sqrt(6)) * (r[0] + r[1]));
+	if (x < env->w - 19)
+		fdf_print_into_img(env, x, y, pxl->color);
 }
 
 static void			fdf_filling(t_win *env, t_pixel px, int x_pxl, int y_pxl)
