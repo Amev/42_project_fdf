@@ -6,7 +6,7 @@
 /*   By: vame <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/10 16:56:15 by vame              #+#    #+#             */
-/*   Updated: 2015/02/27 14:36:41 by vame             ###   ########.fr       */
+/*   Updated: 2015/02/28 16:43:52 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,16 @@ int				main(int av, char **ac)
 	fdf_create_map(&map, av, ac);
 	env.map = &map;
 	env.mlx = mlx_init();
+	env.m.main = NULL;
+	env.rot_on = 0;
+	env.rot_plus = 0;
 	fdf_matrix_bzero(&env);
 	fdf_set_color(KEYCODE_1, &env);
 	fdf_calc_win_param(&env);
 	env.win = mlx_new_window(env.mlx, env.w, env.h, "fdf");
 	mlx_expose_hook(env.win, fdf_expose_hook, &env);
 	mlx_key_hook(env.win, key_hook, &env);
+	mlx_loop_hook(env.mlx, fdf_loop_hook, &env);
 	mlx_loop(env.mlx);
 	return (0);
 }

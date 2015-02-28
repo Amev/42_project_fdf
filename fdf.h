@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/09 13:23:42 by vame              #+#    #+#             */
-/*   Updated: 2015/02/27 16:53:52 by vame             ###   ########.fr       */
+/*   Updated: 2015/02/28 16:58:12 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ typedef struct		s_win
 	int				bpp;
 	int				len;
 	int				endian;
+	int				rot_on;
+	int				rot_plus;
 	struct s_map	*map;
 	struct s_color	color;
 	struct s_matrix	m;
@@ -147,16 +149,18 @@ void				fdf_print_error(int err);
 ** fonctions de gestion des keyhook
 */
 
-int					key_hook(int keycode, t_win *env);
-
-/*
-** fonctions de gestion des keyhook
-*/
-
-int					fdf_expose_hook(t_win *env);
+int					key_hook(int k, t_win *env);
 void				fdf_key_transform(t_win *env, int keycode);
 void				fdf_key_change_coef_z(t_win *env, int keycode);
 void				fdf_set_color(int keycode, t_win *env);
+void				fdf_key_rot_loop(t_win *env, int keycode);
+
+/*
+** fonctions du expose hook
+*/
+
+int					fdf_expose_hook(t_win *env);
+int					fdf_loop_hook(t_win *env);
 
 /*
 ** fonctions de dessin

@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/26 13:00:17 by vame              #+#    #+#             */
-/*   Updated: 2015/02/27 16:53:55 by vame             ###   ########.fr       */
+/*   Updated: 2015/02/28 15:47:25 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void			fdf_matrix_calc(float **a, float **b, t_win *env)
 	env->m.main = res;
 }
 
-static void			fdf_print_main(t_win *env)
+/*static void			fdf_print_main(t_win *env)
 {
 	int				i;
 	int				j;
@@ -73,22 +73,22 @@ static void			fdf_print_main(t_win *env)
 		j++;
 	}
 	printf("--------------------------------------\n");
-}
+}*/
 
 static void			fdf_matrix_combo(t_win *env)
 {
 	fdf_clean_mat(&(env->m.main));
-	fdf_print_main(env);
-	fdf_matrix_calc(env->m.m_t, env->m.main, env);
-	fdf_print_main(env);
+	//fdf_print_main(env);
 	fdf_matrix_calc(env->m.m_rx, env->m.main, env);
-	fdf_print_main(env);
+	//fdf_print_main(env);
 	fdf_matrix_calc(env->m.m_ry, env->m.main, env);
-	fdf_print_main(env);
+	//fdf_print_main(env);
 	fdf_matrix_calc(env->m.m_rz, env->m.main, env);
-	fdf_print_main(env);
+	//fdf_print_main(env);
+	fdf_matrix_calc(env->m.m_t, env->m.main, env);
+	//fdf_print_main(env);
 	fdf_matrix_calc(env->m.m_s, env->m.main, env);
-	fdf_print_main(env);
+	//fdf_print_main(env);
 }
 
 void				fdf_matrix_init(t_win *env)
@@ -130,11 +130,14 @@ void				fdf_matrix_bzero(t_win *env)
 	env->m.sx = 1;
 	env->m.sy = 1;
 	env->m.sz = 1;
-	env->m.m_t = fdf_create_mat(4, 4);
-	env->m.m_s = fdf_create_mat(4, 4);
-	env->m.m_rx = fdf_create_mat(4, 4);
-	env->m.m_ry = fdf_create_mat(4, 4);
-	env->m.m_rz = fdf_create_mat(4, 4);
-	env->m.main = fdf_create_mat(4, 4);
+	if (!env->m.main)
+	{
+		env->m.m_t = fdf_create_mat(4, 4);
+		env->m.m_s = fdf_create_mat(4, 4);
+		env->m.m_rx = fdf_create_mat(4, 4);
+		env->m.m_ry = fdf_create_mat(4, 4);
+		env->m.m_rz = fdf_create_mat(4, 4);
+		env->m.main = fdf_create_mat(4, 4);
+	}
 	fdf_matrix_init(env);
 }

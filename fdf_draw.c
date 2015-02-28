@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/10 12:51:56 by vame              #+#    #+#             */
-/*   Updated: 2015/02/27 16:43:43 by vame             ###   ########.fr       */
+/*   Updated: 2015/02/28 15:40:12 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,10 @@ void				fdf_draw(t_win *env)
 	while (y < env->map->y)
 	{
 		x = 1;
-		pxl.y = y * env->map->coef;
+		pxl.y = y * env->map->coef - (env->map->y * env->map->coef) / 2; 
 		while (x < env->map->points[y][0])
 		{
-			pxl.x = (x - 1) * env->map->coef;
+			pxl.x = (x - 1) * env->map->coef - env->map->x * env->map->coef / 2;
 			fdf_index_alti(env->map->points[y][x], env, &pxl);
 			pxl.color = fdf_color_degrade(pxl.color_a, pxl.color_b, pxl.index);
 			fdf_pxl_proj(&pxl, env->map->points[y][x], env);
@@ -117,5 +117,5 @@ void				fdf_draw(t_win *env)
 	}
 	t2 = clock();
 	tmps = (float)(t2-t1)/CLOCKS_PER_SEC;
-	printf("-- FIN DRAW en %f sec --\n", tmps);
+	//printf("-- FIN DRAW en %f sec --\n", tmps);
 }
