@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/09 13:23:42 by vame              #+#    #+#             */
-/*   Updated: 2015/02/28 16:58:12 by vame             ###   ########.fr       */
+/*   Updated: 2015/03/02 14:16:27 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,24 @@ typedef struct		s_pixel
 }					t_pixel;
 
 /*
+** structure segment
+*/
+
+typedef struct		s_sgmt
+{
+	float			dz;
+	int				dx1;
+	int				dy1;
+	int				dx2;
+	int				dy2;
+	int				w;
+	int				h;
+	int				l;
+	int				s;
+	int				e;
+}					t_sgmt;
+
+/*
 ** fonctions de creation de la map
 */
 
@@ -159,15 +177,17 @@ void				fdf_key_rot_loop(t_win *env, int keycode);
 ** fonctions du expose hook
 */
 
-int					fdf_expose_hook(t_win *env);
+int					fdf_expose_hook(t_win *e);
 int					fdf_loop_hook(t_win *env);
 
 /*
 ** fonctions de dessin
 */
 
-void				fdf_draw(t_win *env);
+void				fdf_draw(t_win *e);
 void				fdf_print_into_img(t_win *env, int x, int y, int color);
+void				fdf_filling(t_win *env, t_pixel p, int x, int y);
+void				fdf_pxl_proj(t_pixel *pxl, int z, t_win *env);
 
 /*
 ** fonctions de gestion de la fenetre

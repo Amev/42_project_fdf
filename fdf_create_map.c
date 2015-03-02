@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/09 14:59:30 by vame              #+#    #+#             */
-/*   Updated: 2015/02/13 16:30:33 by vame             ###   ########.fr       */
+/*   Updated: 2015/03/02 14:22:43 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,13 @@ char			**fdf_read_map(char *ac)
 	int			res;
 	char		*line;
 	char		**read;
-	float		tmps;
-	clock_t		t1;
-	clock_t		t2;
 
 	line = NULL;
 	read = NULL;
 	if ((fd = open(ac, O_RDONLY)) == -1)
 		fdf_print_error(ERR_OPN);
-	t1 = clock();
 	while ((res = get_next_line_2(fd, &line)) == 1)
-	{
-		//ft_printf("--> %d || %s\n", res, line);
 		read = fdf_join_line(&line, &read);
-	}
-	t2 = clock();
-	tmps = (float)(t2-t1)/CLOCKS_PER_SEC;
-	printf("-- FIN GNL en %f sec --\n", tmps);
 	if (res == -1)
 		fdf_print_error(ERR_GNL);
 	if (close(fd) == -1)
@@ -112,14 +102,10 @@ void			fdf_create_map(t_map *map, int av, char **ac)
 	int			x;
 	char		**read;
 	char		**split;
-	float		tmps;
-	clock_t		t1;
-	clock_t		t2;
 
 	if (!(y = 0) && av != 2)
 		fdf_print_error(ERR_ARG);
 	read = fdf_read_map(ac[1]);
-	t1 = clock();
 	fdf_malloc_y_map(map, read);
 	while (read && read[y++] && !(x = 0))
 	{
@@ -131,7 +117,4 @@ void			fdf_create_map(t_map *map, int av, char **ac)
 		ft_strdel_double(&split);
 	}
 	ft_strdel_double(&read);
-	t2 = clock();
-	tmps = (float)(t2-t1)/CLOCKS_PER_SEC;
-	printf("-- FIN MAP en %f sec --\n", tmps);
 }

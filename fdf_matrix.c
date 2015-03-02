@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/26 13:00:17 by vame              #+#    #+#             */
-/*   Updated: 2015/02/28 15:47:25 by vame             ###   ########.fr       */
+/*   Updated: 2015/03/02 14:30:02 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,37 +58,14 @@ static void			fdf_matrix_calc(float **a, float **b, t_win *env)
 	env->m.main = res;
 }
 
-/*static void			fdf_print_main(t_win *env)
-{
-	int				i;
-	int				j;
-
-	j = 0;
-	while (j < 4)
-	{
-		i = 0;
-		while (i < 4)
-			printf("%f ", env->m.main[j][i++]);
-		printf("\n");
-		j++;
-	}
-	printf("--------------------------------------\n");
-}*/
-
 static void			fdf_matrix_combo(t_win *env)
 {
 	fdf_clean_mat(&(env->m.main));
-	//fdf_print_main(env);
 	fdf_matrix_calc(env->m.m_rx, env->m.main, env);
-	//fdf_print_main(env);
 	fdf_matrix_calc(env->m.m_ry, env->m.main, env);
-	//fdf_print_main(env);
 	fdf_matrix_calc(env->m.m_rz, env->m.main, env);
-	//fdf_print_main(env);
 	fdf_matrix_calc(env->m.m_t, env->m.main, env);
-	//fdf_print_main(env);
 	fdf_matrix_calc(env->m.m_s, env->m.main, env);
-	//fdf_print_main(env);
 }
 
 void				fdf_matrix_init(t_win *env)

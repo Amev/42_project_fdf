@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/16 10:50:51 by vame              #+#    #+#             */
-/*   Updated: 2015/02/28 16:58:12 by vame             ###   ########.fr       */
+/*   Updated: 2015/03/02 14:16:28 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ int				fdf_loop_hook(t_win *env)
 {
 	if (env->rot_on)
 	{
-		env->m.az += env->rot_on == 1 ? PI / 300 : -PI / 300;
+		env->m.az += env->rot_on == 1 ? PI / 400 : -PI / 400;
 		if (env->rot_plus > 0)
-			env->m.ay += env->rot_on == 1 ? PI / 300 : -PI / 300;
+			env->m.ay += env->rot_on == 1 ? PI / 400 : -PI / 400;
 		if (env->rot_plus > 1)
-			env->m.ax += env->rot_on == 1 ? PI / 300 : -PI / 300;
+			env->m.ax += env->rot_on == 1 ? PI / 400 : -PI / 400;
 		if (env->rot_plus > 2)
 			env->rot_plus = 2;
 		if (env->rot_plus < -2)
@@ -40,12 +40,12 @@ int				fdf_loop_hook(t_win *env)
 	return (1);
 }
 
-int				fdf_expose_hook(t_win *env)
+int				fdf_expose_hook(t_win *e)
 {
-	env->img = mlx_new_image(env->mlx, env->w - 19, env->h - 19);
-	env->img_str = mlx_get_data_addr(env->img, &env->bpp, &env->len, &env->endian);
-	fdf_draw(env);
-	mlx_put_image_to_window(env->mlx, env->win, env->img, 10, 10);
-	mlx_destroy_image(env->mlx, env->img);
+	e->img = mlx_new_image(e->mlx, e->w - 19, e->h - 19);
+	e->img_str = mlx_get_data_addr(e->img, &e->bpp, &e->len, &e->endian);
+	fdf_draw(e);
+	mlx_put_image_to_window(e->mlx, e->win, e->img, 10, 10);
+	mlx_destroy_image(e->mlx, e->img);
 	return (1);
 }

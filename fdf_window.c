@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/10 16:16:52 by vame              #+#    #+#             */
-/*   Updated: 2015/02/28 15:15:48 by vame             ###   ########.fr       */
+/*   Updated: 2015/03/02 14:30:38 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void				fdf_calc_win_param(t_win *e)
 	y_min = (e->map->y - 1) * e->map->coef / sqrt(6);
 	x_max = sqrt(2) * ((e->map->x - 1) * e->map->coef) / 2;
 	y_max = (e->map->x - 1) * e->map->coef / sqrt(6);
-	//e->w = sqrt(pow(y_min - y_max, 2) + pow(x_min - x_max, 2)) + 20;
 	e->w = x_max - x_min + 20;
 	e->o_x = (x_max - x_min) / 2;
 	x_min = 0;
@@ -53,7 +52,6 @@ void				fdf_calc_win_param(t_win *e)
 	x_max = sqrt(2) * (e->map->x - e->map->y) * e->map->coef / 2;
 	y_max = sqrt(2) / sqrt(3) * e->map->z_min * e->coef_z;
 	y_max -= (((e->map->x - 1) + (e->map->y - 1)) * e->map->coef / sqrt(6));
-	//e->h = sqrt(pow(y_min - y_max, 2) + pow(x_min - x_max, 2)) + 20;
 	e->h = y_min - y_max + 20;
 	e->o_y = (y_min - y_max) / 2;
 }

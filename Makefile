@@ -6,13 +6,15 @@
 #    By: vame <vame@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/23 11:23:10 by vame              #+#    #+#              #
-#    Updated: 2015/02/27 14:49:20 by vame             ###   ########.fr        #
+#    Updated: 2015/03/02 14:46:09 by vame             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fdf
 
 CFLAGS = -Werror -Wextra -Wall -O3 -I libft/includes/
+
+LIBX = -lm -L libft/ -lft -L /usr/x11/lib -lmlx -lXext -lX11
 
 INC = ./fdf.h
 
@@ -24,6 +26,7 @@ SRC =	./fdf_main.c \
 		./fdf_window.c \
 		./fdf_expose.c \
 		./fdf_matrix.c \
+		./fdf_filling.c \
 		./fdf_key_hook.c \
 		./fdf_index_alti.c \
 		./fdf_create_map.c \
@@ -34,11 +37,11 @@ BINAIRE = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(BINAIRE)
+$(NAME): $(SRC)
 		@make -C libft/
-		gcc -g -o $(NAME) $(BINAIRE) -lm -L libft/ -lft -L /usr/x11/lib -lmlx -lXext -lX11
+		gcc -c $(CFLAGS) $(SRC) $(INC)
+		gcc -g -o $(NAME) $(BINAIRE) $(LIBX)
 		@rm -f $(TMP)
-		@make clean
 
 lib :
 		@make -C libft/ fclean
@@ -53,3 +56,5 @@ fclean: clean
 		@make -C libft/ fclean
 
 re: fclean all
+
+.PHONY: all $(NAME) lib clean fclean re

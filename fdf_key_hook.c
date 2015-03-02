@@ -6,11 +6,22 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/09 15:07:36 by vame              #+#    #+#             */
-/*   Updated: 2015/02/28 16:58:11 by vame             ###   ########.fr       */
+/*   Updated: 2015/03/02 14:29:14 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+static void			fdf_set_color_end(t_win *env)
+{
+	env->color.color1 = 0x000000;
+	env->color.color2 = 0xFFFFFF;
+	env->color.color3 = 0x000000;
+	env->color.color4 = 0x464646;
+	env->color.color5 = 0x8B8B8B;
+	env->color.color6 = 0xD1D1D1;
+	env->color.color7 = 0xFFFFFF;
+}
 
 void				fdf_set_color(int keycode, t_win *env)
 {
@@ -35,15 +46,7 @@ void				fdf_set_color(int keycode, t_win *env)
 		env->color.color7 = 0x000000;
 	}
 	else if (keycode == KEYCODE_3)
-	{
-		env->color.color1 = 0x000000;
-		env->color.color2 = 0xFFFFFF;
-		env->color.color3 = 0x000000;
-		env->color.color4 = 0x464646;
-		env->color.color5 = 0x8B8B8B;
-		env->color.color6 = 0xD1D1D1;
-		env->color.color7 = 0xFFFFFF;
-	}
+		fdf_set_color_end(env);
 }
 
 void				fdf_key_change_coef_z(t_win *env, int keycode)
@@ -73,15 +76,12 @@ void				fdf_key_transform(t_win *env, int keycode)
 		env->m.ay += keycode == 113 ? PI / 12 : -PI / 12;
 	if (keycode == 97 || keycode == 100)
 		env->m.az += keycode == 97 ? PI / 12 : -PI / 12;
-	if (keycode ==  61 || keycode == 45)
+	if (keycode == 61 || keycode == 45)
 	{
 		env->m.sx *= keycode == 61 ? 2 : 0.5;
 		env->m.sy *= keycode == 61 ? 2 : 0.5;
 	}
-	if (keycode == 65288)
-		fdf_matrix_bzero(env);
-	else
-		fdf_matrix_init(env);
+	keycode == 65288 ? fdf_matrix_bzero(env) : fdf_matrix_init(env);
 	fdf_expose_hook(env);
 }
 
@@ -109,6 +109,5 @@ int					key_hook(int k, t_win *env)
 		env->rot_on = k == 44 ? 1 : 2;
 	else if (env->rot_on && (k == 47 || k == 109))
 		env->rot_plus += k == 47 ? 1 : -1;
-	ft_printf("-- keycode = %d. --\n", k);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: vame <marvin@42.fr>                        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/09 10:19:00 by vame              #+#    #+#              #
-#    Updated: 2015/02/13 16:03:19 by vame             ###   ########.fr        #
+#    Updated: 2015/03/02 14:18:46 by vame             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ lib:
 		@make -C libft/
 
 clean:
-		rm -f $(BINAIRE) $(TMP)
+		@rm -f $(BINAIRE) $(TMP)
 		@make -C libft/ clean
 
 fclean: clean

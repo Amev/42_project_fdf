@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/10 12:51:56 by vame              #+#    #+#             */
-/*   Updated: 2015/02/28 15:40:12 by vame             ###   ########.fr       */
+/*   Updated: 2015/03/02 14:16:30 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,16 @@ void				fdf_print_into_img(t_win *env, int x, int y, int color)
 	}
 }
 
-static void			fdf_pxl_proj(t_pixel *pxl, int z, t_win *env)
+void				fdf_pxl_proj(t_pixel *p, int z, t_win *e)
 {
-	int					i;
-	int					j;
-	float				x;
-	float				y;
-	float				xyz[4];
-	float				r[4];
+	int				i;
+	int				j;
+	float			xyz[4];
+	float			r[4];
 
-	z = z * env->coef_z;
-	xyz[0] = pxl->x;
-	xyz[1] = pxl->y;
+	z = z * e->coef_z;
+	xyz[0] = p->x;
+	xyz[1] = p->y;
 	xyz[2] = z;
 	xyz[3] = 1;
 	j = 0;
@@ -45,77 +43,36 @@ static void			fdf_pxl_proj(t_pixel *pxl, int z, t_win *env)
 		i = 0;
 		r[j - 1] = 0;
 		while (i++ < 4)
-			r[j - 1] += env->m.main[j - 1][i - 1] * xyz[i - 1];
+			r[j - 1] += e->m.main[j - 1][i - 1] * xyz[i - 1];
 	}
-	x = env->o_x + sqrt(2) / 2 * (r[0] - r[1]);
-	y = env->o_y - (sqrt(2) / sqrt(3) * r[2] - (1 / sqrt(6)) * (r[0] + r[1]));
-	if (x < env->w - 19)
-		fdf_print_into_img(env, x, y, pxl->color);
+	p->x = e->o_x + sqrt(2) / 2 * (r[0] - r[1]);
+	p->y = e->o_y - (sqrt(2) / sqrt(3) * r[2] - (1 / sqrt(6)) * (r[0] + r[1]));
+	if (p->x < e->w - 19)
+		fdf_print_into_img(e, p->x, p->y, p->color);
 }
 
-static void			fdf_filling(t_win *env, t_pixel px, int x_pxl, int y_pxl)
-{
-	float			alti;
-	float			diff;
-	t_pixel			p;
-	t_pixel			d;
-
-	alti = env->map->points[y_pxl][x_pxl];
-	p.y = 1;
-	p.x = 0;
-	while (p.y < env->map->coef && y_pxl + 1 < env->map->y)
-	{
-		diff = env->map->points[y_pxl][x_pxl] - env->map->points[y_pxl + 1][x_pxl];
-		diff /= env->map->coef;
-		fdf_index_alti(alti - p.y * diff, env, &d);
-		d.color = fdf_color_degrade(d.color_a, d.color_b, d.index);
-		d.x = px.x + p.x;
-		d.y = px.y + p.y;
-		fdf_pxl_proj(&d, alti - p.y * diff, env);
-		p.y += 1;
-	}
-	p.y = 0;
-	p.x = 1;
-	while (p.x < env->map->coef && x_pxl + 1 < env->map->points[y_pxl][0])
-	{
-		diff = env->map->points[y_pxl][x_pxl] - env->map->points[y_pxl][x_pxl + 1];
-		diff /= env->map->coef;
-		fdf_index_alti(alti - p.x * diff, env, &d);
-		d.color = fdf_color_degrade(d.color_a, d.color_b, d.index);
-		d.x = px.x + p.x;
-		d.y = px.y + p.y;
-		fdf_pxl_proj(&d, alti - p.x * diff, env);
-		p.x += 1;
-	}
-}
-
-void				fdf_draw(t_win *env)
+void				fdf_draw(t_win *e)
 {
 	int				x;
 	int				y;
-	float			tmps;
-	clock_t			t1;
-	clock_t			t2;
 	t_pixel			pxl;
 
 	y = 0;
-	t1 = clock();
-	while (y < env->map->y)
+	while (y < e->map->y)
 	{
 		x = 1;
-		pxl.y = y * env->map->coef - (env->map->y * env->map->coef) / 2; 
-		while (x < env->map->points[y][0])
+		while (x < e->map->points[y][0])
 		{
-			pxl.x = (x - 1) * env->map->coef - env->map->x * env->map->coef / 2;
-			fdf_index_alti(env->map->points[y][x], env, &pxl);
+			pxl.y = y * e->map->coef - (e->map->y * e->map->coef) / 2;
+			pxl.x = (x - 1) * e->map->coef - e->map->x * e->map->coef / 2;
+			fdf_index_alti(e->map->points[y][x], e, &pxl);
 			pxl.color = fdf_color_degrade(pxl.color_a, pxl.color_b, pxl.index);
-			fdf_pxl_proj(&pxl, env->map->points[y][x], env);
-			fdf_filling(env, pxl, x, y);
+			fdf_pxl_proj(&pxl, e->map->points[y][x], e);
+			if (pxl.x > -e->map->coef && pxl.x < e->w - 18 + e->map->coef
+				&& pxl.y > -e->map->coef && pxl.y < e->h - 18 + e->map->coef)
+				fdf_filling(e, pxl, x, y);
 			x++;
 		}
 		y++;
 	}
-	t2 = clock();
-	tmps = (float)(t2-t1)/CLOCKS_PER_SEC;
-	//printf("-- FIN DRAW en %f sec --\n", tmps);
 }
