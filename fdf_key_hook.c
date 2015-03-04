@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/09 15:07:36 by vame              #+#    #+#             */
-/*   Updated: 2015/03/02 14:29:14 by vame             ###   ########.fr       */
+/*   Updated: 2015/03/04 10:22:34 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void				fdf_key_transform(t_win *env, int keycode)
 	{
 		env->m.sx *= keycode == 61 ? 2 : 0.5;
 		env->m.sy *= keycode == 61 ? 2 : 0.5;
+		env->m.sz *= keycode == 61 ? 2 : 0.5;
 	}
 	keycode == 65288 ? fdf_matrix_bzero(env) : fdf_matrix_init(env);
 	fdf_expose_hook(env);
