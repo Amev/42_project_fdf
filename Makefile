@@ -6,13 +6,13 @@
 #    By: vame <vame@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/23 11:23:10 by vame              #+#    #+#              #
-#    Updated: 2015/03/02 14:46:09 by vame             ###   ########.fr        #
+#    Updated: 2015/03/04 10:08:55 by vame             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fdf
 
-CFLAGS = -Werror -Wextra -Wall -O3 -I libft/includes/
+CFLAGS = -Werror -Wextra -Wall -I libft/includes/
 
 LIBX = -lm -L libft/ -lft -L /usr/x11/lib -lmlx -lXext -lX11
 
@@ -37,9 +37,8 @@ BINAIRE = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(SRC)
+$(NAME): $(BINAIRE)
 		@make -C libft/
-		gcc -c $(CFLAGS) $(SRC) $(INC)
 		gcc -g -o $(NAME) $(BINAIRE) $(LIBX)
 		@rm -f $(TMP)
 
@@ -57,4 +56,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all $(NAME) lib clean fclean re
+.PHONY: all lib clean fclean re

@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/09 14:59:30 by vame              #+#    #+#             */
-/*   Updated: 2015/03/02 14:22:43 by vame             ###   ########.fr       */
+/*   Updated: 2015/03/04 09:43:00 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void			fdf_malloc_y_map(t_map *map, char **read)
 	y = 0;
 	while (read && read[y])
 		y++;
+	if (!y)
+		fdf_print_error(ERR_MAP);
 	if (!(map->points = (int **)malloc(sizeof(int *) * (y))))
 		fdf_print_error(ERR_MAL);
 	map->x = 0;
@@ -89,6 +91,8 @@ void			fdf_malloc_x_map(t_map *map, char **split, int y)
 	x = 0;
 	while (split && split[x])
 		x++;
+	if (!x)
+		fdf_print_error(ERR_MAP);
 	if (!(map->points[y - 1] = (int *)malloc(sizeof(int) * (x + 1))))
 		fdf_print_error(ERR_MAL);
 	map->points[y - 1][0] = x + 1;
