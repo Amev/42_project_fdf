@@ -9,6 +9,12 @@ Mon projet a quelques 'bonus' comme tous les déplacements (translations et rota
 
 *Il y a peu de chance que vous puissiez tester le projet dans son état actuel, je le mettrais à jour prochainement avec la dernière version de la minilibx*
 
+`$> git clone https://github.com/Amev/42_project_fdf.git FdF`
 
+`$> cd FdF`
+
+`$> make`
+
+`$> ./fdf *nom_de_la_map*`
 
 *Comme l'ensemble des projets 42, celui-ci est sous à la "norme" 42, pas de commentaire C++, pas de fonctions de plus de 25 lignes, pas plus de 5 fonctions par fichier, etc.*
